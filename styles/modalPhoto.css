@@ -1,0 +1,162 @@
+body{
+    background:url(https://subtlepatterns.com/patterns/crossword.png);
+    font-family:sans-serif;
+    color:#333;
+    
+    
+  }
+  h1{
+    margin:80px 0
+  }
+.btn-close-image {
+    color: #aaaaaa;
+    font-size: 20px;
+    text-decoration: none;
+    padding:10px;
+    position: absolute;
+    right: 7px;
+    top: 0;
+  }
+  .btn-close-image:hover {
+    color: #919191;
+  }
+  .modale:before {
+    content: "";
+    display: none;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+  .opened:before {
+    display: block;
+  }
+  .opened .modal-dialog-image {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+    top: 10%;
+  }
+  .modale {
+      display: flex;
+    justify-content: center;
+    
+  }
+  #imageModal {
+  max-width: 100%;
+  max-height: 100%;
+  display: inline-block;
+   }
+  #imageDivModal{
+    max-width:50%;
+    display: inline-block;
+    float: left;
+  
+  }
+  #DetailsDivModal {
+    
+    display: inline;
+    float: left;
+    padding: 10px;
+    text-align: left;
+    overflow: hidden;
+    max-width: 100%;
+    
+    
+  }
+  #inputImageModal {
+      background-color: #eee;
+      border: none;
+      padding: 12px 15px;
+      margin: 8px 0;
+    width:100%;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 80%;
+    display: inline-block;
+  }
+  
+  .modal-dialog-image {
+    background: #fefefe;
+    border: #333333 solid 0px;
+    border-radius: 5px;
+    
+    text-align:center;
+    position: fixed;
+    
+    top: -100%;
+    z-index: 11;
+    width: 60%;
+    box-shadow:0 5px 10px rgba(0,0,0,0.3);
+    -webkit-transform: translate(0, -500%);
+    -ms-transform: translate(0, -500%);
+    transform: translate(0, -500%);
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    -moz-transition: -moz-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+    
+  }
+  .modal-body-image {
+    text-align: center;
+    padding: 0px;
+  }
+  
+  .modal-header-image,
+  .modal-footer-image {
+    padding: 10px 20px;
+  }
+  .modal-header-image {
+    background: transparent;
+    border-bottom: #eeeeee solid 1px;
+    height: 50px;
+  }
+  .modal-header-image h2 {
+    font-size: 20px;
+  }
+  .modalParaImage {
+    
+    font-size: 20px;
+  }
+  
+  #commentDivModal {
+    position: absolute;
+    bottom: 0;
+    width:50%
+    
+  }
+  
+  #commentButton { 
+    display: inline-block;
+  }
+  #commentButton {
+      border-radius: 10px;
+      border: 1px solid orange;
+      background-color: orange;
+      color: #FFFFFF;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 12px 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 80ms ease-in;
+    cursor: pointer;
+    
+  }
+  
+  #commentButton:active {
+      transform: scale(0.95);
+  }
+  
+  #commentButton:focus {
+      outline: none;
+  }
+  
+  #commentButton.ghost {
+      background-color: transparent;
+      border-color: #FFFFFF;
+  }
+  

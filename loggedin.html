@@ -1,0 +1,206 @@
+<html>
+	<head>
+		<title> Your Page </title>
+		    <link rel="apple-touch-icon" sizes="180x180" href="Icons/apple-touch-icon.png">
+		    <link rel="icon" type="image/png" sizes="32x32" href="Icons/favicon-32x32.png">
+		    <link rel="icon" type="image/png" sizes="16x16" href="Icons/favicon-16x16.png">
+		    <link rel="manifest" href="Icons/site.webmanifest">
+			<link rel="stylesheet" href="styles/style-loggedin.css">
+			<link rel="stylesheet" href="styles/modalPhoto.css">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+				<!-- Bootstrap -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+			<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+			<script src="scripts/loggedin-tagsadder.js"></script>
+			<script> var bool_my_img;</script>
+			<script>var my_photo_count=0; var arr= new Array();</script>
+	</head>
+    <body onload="Photos();">
+	<!-- <body onload="displayFn();"> -->
+        <div class="dropdown">
+		 <button id="delete-account" class="dropbtn"></button>
+		 <div class="dropdown-content">
+		   <button id="dropdown-button" data-toggle="modal" data-target="#modalDelete">Delete Images</button>
+		 </div>
+		</div> 
+		<!-- Button trigger modal -->
+		  <!-- Modal -->
+		  <div class="modal fade" id="UploadModal" tabindex="-1" role="dialog" aria-labelledby="UploadModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="UploadModalLabel">Upload an Image</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div id="def-upload-img" ></div>
+				<div class="modal-body">
+					<input type="file" id="imgupload" style="display:none"/> 
+				  <button type="button" name="name-btn-upload" class="btn btn-outline-dark btn-upload" data-toggle="button" a>Select an Image</button>
+				  <br><br>
+				  <input class="form-control add-name-placeholder" type="text" placeholder="Enter Name" style="display: none; text-align: center;" readonly>
+				  <br>
+				<form class="form-name" style="display: none;">
+				  <div class="form-row">
+					<div class="col">
+					  <input type="text" class="form-control name-input" onkeyup="handleInputName(this, event)" placeholder="Name">
+					</div>
+				  </div>
+				</form>
+				<br><br>
+				  <input class="form-control add-tag-placeholder" type="text" placeholder="Add tags" style="display: none; text-align: center;" readonly>
+					<br>
+				  <form class="form-tags" style="display: none;">
+					<div class="form-row">
+					  <div class="col">
+						<input type="text" class="form-control tag-input" onkeyup="handleInput(this, event)" placeholder="Tag 1">
+					  </div>
+					</div>
+				  </form>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-primary btn-upload-final" disabled>Upload</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+	<div class="top">
+		
+			<button type="button" class="btn btn-primary btn-upload-modal" data-toggle="modal" data-target="#UploadModal">
+				Upload An Image
+			  </button>
+		  <!-- <label for="files" id="btn-upload">Upload an Image</label> -->
+		  <!-- <input id="files" style="visibility:hidden;" type="file"> -->
+
+		  <button type="button" class="btn btn-outline-danger btn-logout" onclick="logout()">Log Out</button>
+		</div>
+		<div id='switchDiv'>
+			<button id='myImg_button' onClick="myImages();">My Images</button>
+			<button id='allImg_button' onClick="allImages();">All Images</button>	  
+			  </div>
+		
+		<div class="container">
+			<div class="modal fade" role="dialog" tabindex="-1" id="modalDelete">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="color: rgb(255,0,0);">Warning</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+						<div class="modal-body">
+							<form>
+								<p style="color:red;font-size:20px;">This action cannot be reverted</p>
+								
+							</form>
+						</div>
+						<div class="modal-footer"><button class="btn btn-primary" type="button" style="background-color: rgb(255,0,0);" onclick="deletePhotos();deletePhotosDatabase();" data-dismiss="modal">Delete Images<button class="btn btn-primary" type="button" style="background-color: rgb(255,0,0);" id="dropdown-buttons" onclick="deleteUsers();">Delete Account</button><button class="btn btn-primary" type="button" style="background-color: rgb(255,0,0);" id="dropdown-pictures" onclick="deleteUsers();deletePhotos();deletePhotosDatabase();">Delete Account and Images</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="modal fade" role="dialog" tabindex="-1" id="modalDelete_Individual">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="color: rgb(255,0,0);">Warning</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+						<div class="modal-body">
+							<form>
+								<p class ="Warning_text" id="Del_single_image" style="color:red;font-size:20px;">Are you sure you want to delete </p>
+								
+							</form>
+						</div>
+						<div class="modal-footer" id="del_ind_footer"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modale" aria-hidden="true">
+			<div class="modal-dialog-image">
+			  <div class="modal-header-image">
+		  
+				<a href="#" class="btn-close-image closemodale" aria-hidden="true">&times;</a>
+			  </div>
+			  <div class="modal-body-image">
+				<div id="imageDivModal"><img id="imageModal"> </div>
+				
+				<div id="DetailsDivModal">
+				  <p class="modalParaImage" id="realnameModal"></p>
+				  <p class="modalParaImage" id="tagsModal"></p>
+				  <p class="modalParaImage" id="upvotesModal"></p>
+				  <div id="commentDivModal"><input id="inputImageModal" type="Name" placeholder="Add comments"/><button id="commentButton">&rarr;</button></div>
+				</div>
+			   
+				</div>
+			 
+			</div>
+		  </div>
+		<div id="header"></div>  <!-- This is where the images come -->
+
+
+		
+		
+		<!-- Script for bootstrap modals -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+			
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+		<!--Add SDKs for Firebase products that you want to use
+				https://firebase.google.com/docs/web/setup#available-libraries -->
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-analytics.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-storage.js"></script>
+
+        <script>
+			// Your web app's Firebase configuration
+			var firebaseConfig = {
+			apiKey: "AIzaSyC-D05cN2cFmG3AzaBpGZklFZdFvo2EwVc",
+			authDomain: "awesomeus-2573b.firebaseapp.com",
+			databaseURL: "https://awesomeus-2573b.firebaseio.com",
+			projectId: "awesomeus-2573b",
+			storageBucket: "awesomeus-2573b.appspot.com",
+			messagingSenderId: "910570119526",
+			appId: "1:910570119526:web:416ae3008210e55e7628a7",
+			measurementId: "G-L7SNRHL4EZ"
+			};
+			// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+			firebase.analytics();
+
+			//make auth and firestore references
+			const auth = firebase.auth();   //when we sign up another user, it would be attached to this constant
+		</script>
+		<script>
+			var storageRef = firebase.storage().ref();
+			firebase.storage().ref().child('images').listAll().then(function(res) {
+            res.items.forEach(function(itemRef) {
+		    var all_img_names=itemRef.name;	
+		    var curr_user= firebase.auth().currentUser;
+			var search = all_img_names.search(curr_user.uid);
+			if(search!=-1)
+			{  arr[my_photo_count]=all_img_names;
+			   my_photo_count++;
+		    }
+						
+					});
+				});
+		</script>
+				<script src="scripts/loggedin-logout.js"></script>
+				<script src="scripts/loggedin-checkuserstate.js"></script>
+				<script src="scripts/loggedin-uploadimage.js"></script>
+
+
+<script src="scripts/loggedin.js"></script>
+<script src="scripts/deleteUser.js"></script>
+<script src="scripts/deletePictures.js"></script>
+<script src="scripts/loggedin-imageSwitch.js"></script>
+<script src="scripts/upvoteAndUnvote.js"></script>
+<script src="scripts/modalPhoto.js"></script>
+<body>
+				
+</html>

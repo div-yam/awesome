@@ -1,0 +1,408 @@
+<html>
+
+	<head>
+		<title> Hii </title>
+	        <link rel="stylesheet" href="styles/style-loggedin.css">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+				<!-- Bootstrap -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+			<script src="./scripts/divalign.js"></script>
+			<script>
+				var called = new Array();
+
+				function handleInput(me, e) {
+					if(e.key!=" ")
+					return false;
+					var copy=me.value;
+					
+					me.value="";
+					me.value=copy.substring(0, copy.length-1);
+					
+					var place = me.placeholder;
+
+					if(called.includes(place))
+						return false;
+					else called.push(place);
+
+					
+					console.log(place + " called");
+					console.log(document.querySelector(".form-tags").children.length);
+					var cNodes=document.querySelector(".form-tags").children;
+				
+
+					var cdiv=document.createElement("div");
+
+					cdiv.setAttribute("class","col");
+
+					var ccinp=document.createElement("input");
+					ccinp.setAttribute("type","text");
+					ccinp.setAttribute("onkeyup","handleInput(this, event)");
+					ccinp.setAttribute("class","form-control tag-input");
+					ccinp.setAttribute("placeholder","Tag " + Number( Number(place.replace(/[^0-9]/g,'')) + 1 ) );
+
+					cdiv.appendChild(ccinp);
+
+					if(Number(place.replace(/[^0-9]/g,'')) % 3 == 0) {
+
+						var crdiv=document.createElement("div");
+						crdiv.setAttribute("class","form-row");						
+						crdiv.appendChild(cdiv);
+
+						document.querySelector(".form-tags").appendChild(crdiv);
+					}
+					else
+					{
+						document.querySelector(".form-tags").children[cNodes.length-1].appendChild(cdiv);
+					}
+				}
+			</script>
+
+	</head>
+
+	<body>
+        <div class="dropdown">
+		 <button id="delete-account" class="dropbtn">User</button>
+		 <div class="dropdown-content">
+		   <button id="dropdown-button">Delete Account</button>
+		 </div>
+		</div> 
+        
+		<!-- Button trigger modal -->
+		  <!-- Modal -->
+		  <div class="modal fade" id="UploadModal" tabindex="-1" role="dialog" aria-labelledby="UploadModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="UploadModalLabel">Upload an Image</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div id="def-upload-img" ></div>
+				<div class="modal-body">
+					<input type="file" id="imgupload" style="display:none"/> 
+				  <button type="button" name="name-btn-upload" class="btn btn-outline-dark btn-upload" data-toggle="button" a>Select an Image</button>
+				  <br><br>
+				  
+				  <input class="form-control add-tag-placeholder" type="text" placeholder="Add tags" style="display: none; text-align: center;" readonly>
+					<br>
+					
+				  <form class="form-tags" style="display: none;">
+					<div class="form-row">
+					  <div class="col">
+						<input type="text" class="form-control tag-input" onkeyup="handleInput(this, event)" placeholder="Tag 1">
+					  </div>
+					</div>
+				  </form>
+
+				</div>
+
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-primary btn-upload-final">Upload</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+		<div id="btn-div">
+			<button type="button" class="btn btn-primary btn-upload-modal" data-toggle="modal" data-target="#UploadModal">
+				Upload An Image
+			  </button>
+		  <!-- <label for="files" id="btn-upload">Upload an Image</label> -->
+		  <!-- <input id="files" style="visibility:hidden;" type="file"> -->
+
+		  <button type="button" class="btn btn-outline-danger btn-logout" onclick="logout()">Log Out</button>
+		</div>
+		
+		<div id="header"></div>  <!-- This is where the images come -->
+
+		<!-- Script for bootstrap modals -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+			
+		<!-- The core Firebase JS SDK is always required and must be listed first -->
+		<!--Add SDKs for Firebase products that you want to use
+				https://firebase.google.com/docs/web/setup#available-libraries -->
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-analytics.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-storage.js"></script>
+
+		<script>
+			// Your web app's Firebase configuration
+			var firebaseConfig = {
+			apiKey: "AIzaSyC-D05cN2cFmG3AzaBpGZklFZdFvo2EwVc",
+			authDomain: "awesomeus-2573b.firebaseapp.com",
+			databaseURL: "https://awesomeus-2573b.firebaseio.com",
+			projectId: "awesomeus-2573b",
+			storageBucket: "awesomeus-2573b.appspot.com",
+			messagingSenderId: "910570119526",
+			appId: "1:910570119526:web:416ae3008210e55e7628a7",
+			measurementId: "G-L7SNRHL4EZ"
+			};
+			// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+
+			firebase.analytics();
+
+			//make auth and firestore references
+			const auth = firebase.auth();   //when we sign up another user, it would be attached to this constant
+			
+
+			function logout()
+			{
+				auth.signOut();
+				console.log('User Logged Out! ');
+
+				console.log("Opened: "+window.location.href);
+				var path = window.location.href;
+				var split = path.split("/");
+				var x = split.slice(0, split.length - 1).join("/") + "/";
+
+				console.log("To be replaced with : "+ x+"index.html");
+
+
+				window.location.replace(x+"index.html");
+
+			}
+			auth.onAuthStateChanged(user =>{
+
+					if(!user)
+					{
+						console.log('User Not Logged In! ');
+
+						console.log("Opened: "+window.location.href);
+						var path = window.location.href;
+						var split = path.split("/");
+						var x = split.slice(0, split.length - 1).join("/") + "/";
+
+						console.log("To be replaced with : "+ x+"index.html");
+
+
+						window.location.replace(x+"index.html");
+					}
+			});
+						
+				//  firebase.analytics();
+			var storage = firebase.storage();
+			var storageRef = storage.ref();
+							
+			// Create a reference under which you want to list
+			var listRef = storageRef.child('images');
+			var i=0;
+			var src = document.getElementById("header");
+			// Find all the prefixes and items.
+			
+			var colors=[];
+
+			colors.push("#FF6F61");
+			colors.push("#6B5B95");
+			colors.push("#88B04B");
+			colors.push("#F7CAC9");
+			colors.push("#45B8AC");
+			colors.push("#7FFFD4");
+			colors.push("#000000");
+			colors.push("#FFF8DC");
+			colors.push("#FF00FF");
+			colors.push("#00FF00");
+			colors.push("#FFFF00");
+			colors.push("#9ACD32");
+			colors.push("#FFFFFF");
+			colors.push("#00FF7F");
+			colors.push("#FF0000");
+			colors.push("#F5FFFA");
+
+			var ran=0;
+			var ran2=0;
+			listRef.listAll().then(function(res) {
+			
+				res.items.forEach(function(itemRef) {
+					ran++;
+				// Get metadata properties
+				//itemRef.getMetadata().then(function(metadata) {
+				// Metadata now contains the metadata for 'images/forest.jpg'
+					var graddiv = document.createElement("div");
+
+					graddiv.setAttribute("class","grad-div");
+					//graddiv.setAttribute("id",metadata.name);
+					graddiv.setAttribute("id",ran);
+
+					var ccol = "linear-gradient(to bottom right, "+colors[Math.floor((Math.random() * colors.length) )]+","+colors[Math.floor((Math.random() * colors.length) )]+")";
+					graddiv.style.backgroundImage = ccol;
+					
+					//Random number bw 0 and colors.length - 1
+					console.log(ccol);
+				
+					src.appendChild(graddiv);
+
+					itemRef.getDownloadURL().then(function(nurl) {
+						
+						i++;
+						ran2++;
+						var img = document.createElement("img");
+						img.setAttribute("class", "img-load");
+						img.src = nurl;
+					
+						var div=document.createElement("div");
+						div.className="text-block";
+						div.innerHTML="<p> What a beautiful sunrise "+i+"</p>";
+						
+						//var remgrad=document.getElementById(metadata.name);
+						var remgrad=document.getElementById(ran2);
+						remgrad.remove();
+						src.appendChild(img);		
+
+						function getOffset( el ) {
+								var _x = 0;
+								var _y = 0;
+								while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+									_x += el.offsetLeft - el.scrollLeft;
+									_y += el.offsetTop - el.scrollTop;
+									el = el.offsetParent;
+								}
+								return { top: _y, left: _x };
+							}
+							//console.log("Left Offset: "+ getOffset( img ).left); 
+							//console.log("Top Offset: "+ getOffset( img ).top); 
+
+							div.style.top=getOffset( img ).top+340;
+						
+							div.style.left=getOffset( img ).left+180;
+
+							src.appendChild(div);
+						
+					}).catch(function(error) {
+
+							// A full list of error codes is available at
+							// https://firebase.google.com/docs/storage/web/handle-errors
+							switch (error.code) {
+								case 'storage/object-not-found':
+								// File doesn't exist
+								break;
+
+								case 'storage/unauthorized':
+								// User doesn't have permission to access the object
+								break;
+
+								case 'storage/canceled':
+								// User canceled the upload
+								break;
+
+								case 'storage/unknown':
+								// Unknown error occurred, inspect the server response
+								break;
+							}
+						});
+					// }).catch(function(error) {
+					// 		console.log("Error in retrieving metadata "+error);
+					// 		// Uh-oh, an error occurred!
+					// });								
+				});
+			}).catch(function(error) {
+					// Uh-oh, an error occurred!
+					console.log(error);
+			});
+
+		$('.btn-upload').click(function(){ $('#imgupload').trigger('click'); });			
+			$("#imgupload").change(function() {
+
+				var defimgdiv=document.querySelector("#def-upload-img");
+				var defimg=document.createElement("img");
+				defimg.setAttribute("class", "img-upload");
+
+				var reader = new FileReader();
+				reader.onload = function(){
+					var dataURL = reader.result;
+					defimg.src = dataURL;
+
+					if(defimgdiv.childElementCount) {
+						defimgdiv.removeChild(defimgdiv.childNodes[0]); 
+					}
+
+					defimgdiv.appendChild(defimg);
+				};
+				reader.readAsDataURL(this.files[0]);
+
+				var utext=document.querySelector(".btn-upload");
+			
+				console.log("Read "+utext.innerText);
+				
+				utext.innerText="Loaded "+this.files[0].name + " -- ";
+
+				document.querySelector(".add-tag-placeholder").style.display = "block";
+				document.querySelector(".form-tags").style.display = "block";
+				
+				
+				var userId = firebase.auth().currentUser.uid;
+				
+				var fname = userId+"@"+this.files[0].name;
+				console.log(fname);
+				var file = this.files[0]; // use the Blob or File API
+				var floc="images/"+fname;
+
+				
+
+				$('.btn-upload-final').click(function() {
+
+									//  firebase.analytics();
+						var storage = firebase.storage();
+						var storageRef = storage.ref();			
+
+						var tags=[];
+
+						var trav=document.querySelectorAll(".tag-input");
+						var index;
+
+						for ( index=0; index<trav.length;index++) {
+							console.log(trav[index].value);
+							 
+							if(trav[index].value != "") {
+								tags.push(trav[index].value);
+							}
+
+					}
+						
+						// An image entry.
+						var postImg = {
+							author: userId,
+							name: fname,
+							tags: tags,
+							upvotes: 0,
+						};
+					
+						var newPostKey = firebase.database().ref().child('images').push().key;
+						
+						// Write the new post's data simultaneously in the posts list and the user's post list.
+						var updates = {};
+						updates['/images/' + newPostKey] = postImg;
+						//updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+						firebase.database().ref().update(updates).then(function(){
+
+						storageRef.child(floc).put(file).then(function(snapshot) {
+						
+						console.log('Uploaded a blob or file!');
+						utext.innerText="Uploaded "+fname +"!!";
+
+						setTimeout(function() {
+							location.reload();				
+							}, 1000);
+						});
+
+							
+					 
+					});
+
+			
+				});
+			});
+		</script>
+
+<script src="scripts/loggedin.js"></script>
+<script src="scripts/deleteUser.js"></script>
+<body>
+				
+</html>
